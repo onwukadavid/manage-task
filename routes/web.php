@@ -14,5 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('task.index');
+});
+Route::get('/workspace', function () {
+    return view('workspace.index');
+});
+Route::get('/project', function () {
+    return view('project.index');
 });

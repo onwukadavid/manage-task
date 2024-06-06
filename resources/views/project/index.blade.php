@@ -3,5 +3,6 @@
     <x-page-header>Projects</x-page-header>
   </x-slot>
 
-  <x-card.card-layout />
+  <x-card.card-layout>
+  </x-card.card-layout>
 </x-index-layout>

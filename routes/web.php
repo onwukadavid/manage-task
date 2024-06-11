@@ -13,8 +13,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', [TaskController::class, 'index']);
+Route::controller(TaskController::class)->group(function(){
+    Route::get('/', 'index'); # change to /task
+    Route::get('/task/create', 'create');
+});
 Route::get('/workspace', function () {
     return view('workspace.index');
 });

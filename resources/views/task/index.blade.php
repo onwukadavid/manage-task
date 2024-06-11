@@ -3,18 +3,41 @@
     <x-page-header>Tasks</x-page-header>
   </x-slot>
 
+
+
   <x-card.card-layout>
     @foreach($tasks as $task)
+      @php
+      $status = $task->status;
+      if($status=='not started')
+      {
+        $statusClass='bg-gray-200 text-gray-800';
+      }elseif($status=='ongoing'){
+        $statusClass='bg-blue-200 text-blue-800';
+      }else{
+        $statusClass='bg-green-200 text-green-800';
+      }
+
+      $importance = $task->importance;
+      if($importance=='low')
+      {
+        $importanceClass='bg-green-200 text-green-800';
+      }elseif($importance=='medium'){
+        $importanceClass='bg-yellow-200 text-yellow-800';
+      }else{
+        $importanceClass='bg-red-200 text-red-800';
+      }
+      @endphp
     <div class="h-80 bg-white rounded-lg shadow-md p-4 transform transition-transform duration-300 hover:scale-105 flex flex-col justify-between">
       <div>
           <div class="flex justify-between items-center mb-2">
               <h2 class="text-lg font-bold">{{ $task->title }}</h2>
               <div class="flex space-x-2">
-                  <span class="text-xs bg-green-200 text-green-800 rounded-full px-2 py-1 font-bold">{{ $task->status }}</span>
-                  <span class="text-xs bg-red-200 text-red-800 rounded-full px-2 py-1 font-bold">{{ $task->importance }}</span>
+                  <x-status class={{$statusClass}}>{{ $task->status }}</x-status>
+                  <x-status class={{$importanceClass}}>{{ $task->importance }}</x-status>
               </div>
           </div>
-          <p class="text-sm text-gray-600 mb-4">{{ $task->content }}<a href="#" class="text-blue-500">See more...</a></p>
+          <p class="text-sm text-gray-600 mb-4">{{ $task->content_preview }}<a href="#" class="text-blue-500">See more</a></p>
       </div>
       <div class="flex justify-between items-end">
           <span class="text-xs text-gray-500">Last update: {{ $task->updated_at }}</span>

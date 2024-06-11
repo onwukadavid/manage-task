@@ -1,0 +1,1 @@
+<span {{$attributes(["class"=>"text-xs rounded-full px-2 py-1 font-bold"])}}>{{ $slot }}</span>

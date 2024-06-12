@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->text('content');
             $table->enum('status', ['not started', 'ongoing', 'done']);
-            $table->enum('importance', ['low', 'medium', 'high']);
+            $table->enum('priority', ['low', 'medium', 'high']);
             $table->timestamps();
         });
     }

@@ -29,7 +29,16 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        $validated =$request->validate([
+            'title'=>['required', 'min:3', 'max:255'],
+            'content'=>['required', 'min:10'],
+            'status'=>['required'],
+            'priority'=>['required'],
+        ]);
+        $validated['user_id'] = 1;
+        Task::create($validated);
+        return redirect('/');
     }
 
     /**

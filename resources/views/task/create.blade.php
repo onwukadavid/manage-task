@@ -6,7 +6,8 @@
     </x-slot>
 
     {{-- SWITH TO MODAL FROM THE INDEX PAGE --}}
-    <form>
+    <form action="/task/store" method="POST">
+        @csrf
         <x-form.form-layout />
     </form>
 </x-index-layout>

@@ -18,14 +18,14 @@
         $statusClass='bg-green-200 text-green-800';
       }
 
-      $importance = $task->importance;
-      if($importance=='low')
+      $priority = $task->priority;
+      if($priority=='low')
       {
-        $importanceClass='bg-green-200 text-green-800';
-      }elseif($importance=='medium'){
-        $importanceClass='bg-yellow-200 text-yellow-800';
+        $priorityClass='bg-green-200 text-green-800';
+      }elseif($priority=='medium'){
+        $priorityClass='bg-yellow-200 text-yellow-800';
       }else{
-        $importanceClass='bg-red-200 text-red-800';
+        $priorityClass='bg-red-200 text-red-800';
       }
       @endphp
     <div class="h-80 bg-white rounded-lg shadow-md p-4 transform transition-transform duration-300 hover:scale-105 flex flex-col justify-between">
@@ -34,7 +34,7 @@
               <h2 class="text-lg font-bold">{{ $task->title }}</h2>
               <div class="flex space-x-2">
                   <x-status class={{$statusClass}}>{{ $task->status }}</x-status>
-                  <x-status class={{$importanceClass}}>{{ $task->importance }}</x-status>
+                  <x-status class={{$priorityClass}}>{{ $task->priority }}</x-status>
               </div>
           </div>
           <p class="text-sm text-gray-600 mb-4">{{ $task->content_preview }}<a href="#" class="text-blue-500">See more</a></p>

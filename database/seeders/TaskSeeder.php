@@ -17,9 +17,9 @@ class TaskSeeder extends Seeder
         Task::factory()
         ->count(5)
         ->state(new Sequence(
-            ['status' => 'not started', 'importance' => 'low'],
-            ['status' => 'ongoing', 'importance' => 'medium'],
-            ['status' => 'done', 'importance' => 'high']
+            ['status' => 'not started', 'priority' => 'low'],
+            ['status' => 'ongoing', 'priority' => 'medium'],
+            ['status' => 'done', 'priority' => 'high']
         ))
         ->create();
     }

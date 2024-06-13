@@ -1,6 +1,11 @@
 <x-index-layout>
   <x-slot:header>
-    <x-page-header>Tasks</x-page-header>
+    <x-page-header>
+      <x-slot:title>
+          Task
+      </x-slot>
+      <x-link-button href="/tasks/create">Create task</x-link-button>
+  </x-page-header>
   </x-slot>
 
 
@@ -31,13 +36,13 @@
     <div class="h-80 bg-white rounded-lg shadow-md p-4 transform transition-transform duration-300 hover:scale-105 flex flex-col justify-between">
       <div>
           <div class="flex justify-between items-center mb-2">
-              <h2 class="text-lg font-bold">{{ $task->title }}</h2>
+              <h2 class="text-lg font-bold"><a href="/tasks/show/{{ $task->id }}">{{ $task->title }}</a></h2>
               <div class="flex space-x-2">
                   <x-status class={{$statusClass}}>{{ $task->status }}</x-status>
                   <x-status class={{$priorityClass}}>{{ $task->priority }}</x-status>
               </div>
           </div>
-          <p class="text-sm text-gray-600 mb-4">{{ $task->content_preview }}<a href="#" class="text-blue-500">See more</a></p>
+          <p class="text-sm text-gray-600 mb-4">{{ $task->content_preview }}<a href="/tasks/show/{{ $task->id }}" class="text-blue-500">See more</a></p>
       </div>
       <div class="flex justify-between items-end">
           <span class="text-xs text-gray-500">Last update: {{ $task->updated_at }}</span>

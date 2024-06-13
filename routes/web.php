@@ -15,8 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 Route::controller(TaskController::class)->group(function(){
     Route::get('/', 'index'); # change to /task
-    Route::get('/task/create', 'create');
-    Route::post('/task/store', 'store');
+    Route::get('/tasks/create', 'create');
+    Route::post('/tasks/store', 'store');
+    Route::get('/tasks/show/{task}', 'show');
+    Route::get('/task/{task}/edit', 'edit');
+    Route::patch('/task/{task}', 'update');
+    Route::delete('/task/{task}', 'destroy');
 });
 Route::get('/workspace', function () {
     return view('workspace.index');

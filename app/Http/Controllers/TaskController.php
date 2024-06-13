@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
+use function Termwind\render;
+
 class TaskController extends Controller
 {
     /**
@@ -12,7 +14,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::all()->sortByDesc('updated_at');
         return view('task.index', ['tasks'=>$tasks]);
     }
 
@@ -46,7 +48,13 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        # get task
+        $taskObj = Task::where('id',$task->id)->first();
+        $data = ['task'=>$taskObj];
+
+        # diaplay task
+        return view('task.show', data:$data);
+
     }
 
     /**
@@ -54,7 +62,12 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        # get the task object
+        $taskObj = Task::where('id',$task->id)->first();
+        $data = ['task'=>$taskObj];
+
+        # pass it to the view
+        return view('task.edit', data:$data);
     }
 
     /**
@@ -62,7 +75,16 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        $task = Task::where('id', $task->id)->first();
+        $validated =$request->validate([
+            'title'=>['required', 'min:3', 'max:255'],
+            'content'=>['required', 'min:10'],
+            'status'=>['required'],
+            'priority'=>['required'],
+        ]);
+        $validated['user_id'] = 1;
+        $task->update($validated);
+        return redirect('/');
     }
 
     /**
@@ -70,6 +92,8 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task = Task::where('id', $task->id)->first();
+        $task->delete();
+        return redirect('/');
     }
 }

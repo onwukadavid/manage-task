@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,13 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::controller(TaskController::class)->group(function(){
-    Route::get('/', 'index'); # change to /task
+    Route::get('/', 'index')->name('home'); # change to /task
     Route::get('/tasks/create', 'create');
     Route::post('/tasks/store', 'store');
-    Route::get('/tasks/show/{task}', 'show');
+    Route::get('/tasks/show/{task}', 'show')->name('show-task');
     Route::get('/task/{task}/edit', 'edit');
     Route::patch('/task/{task}', 'update');
     Route::delete('/task/{task}', 'destroy');
+});
+
+Route::controller(SessionController::class)->group(function(){
+    Route::get('/login', 'create')->name('login');
+    Route::post('/login', 'store')->name('login-user');
+    Route::get('/logout', 'destroy')->name('logout');
 });
 Route::get('/workspace', function () {
     return view('workspace.index');

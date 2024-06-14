@@ -4,7 +4,7 @@
       <x-slot:title>
           Task
       </x-slot>
-      <x-link-button href="/tasks/create">Create task</x-link-button>
+      <x-link-button href="/tasks/create" class="dark:bg-gray-800">Create task</x-link-button>
   </x-page-header>
   </x-slot>
 

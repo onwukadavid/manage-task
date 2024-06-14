@@ -11,7 +11,7 @@
         <!-- Active: "bg-gray-100", Not Active: "" -->
         <x-profile.profile-dropdown-list href="#" id="user-menu-item-0">Your Profile</x-profile->
         <x-profile.profile-dropdown-list href="#" id="user-menu-item-1">Settings</x-profile->
-        <x-profile.profile-dropdown-list href="#" id="user-menu-item-2">Sign out</x-profile->
+        <x-profile.profile-dropdown-list href="{{ route('logout') }}" id="user-menu-item-2">Sign out</x-profile->
     </div>
 </div>
 

@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       colors:{
-        "dave":"rgb(50,138,241)"
+        "dave":"rgb(50,138,241)",
+        "sign-up":"#4f46e5"
       }
     },
   },

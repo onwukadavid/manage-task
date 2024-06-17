@@ -25,14 +25,10 @@
             </div>
           </div>
           @guest
-            <div class="hidden md:block">
-              <div class="ml-4 flex items-center md:ml-6">
-                <div class="flex justify-center items-center space-x-4">
-                  <x-link-button href="{{route('login')}}" class="flex-shrink-0 px-4 py-2 bg-blue-500 text-white rounded">Log in</x-link-button>
-                  <x-link-button href="#" class="flex-shrink-0 px-4 py-2 text-white rounded">Sign up</x-link-button>
-              </div>
-              </div>
-            </div>
+          <x-flex-button-nav>
+            <x-link-button href="{{route('login')}}" class="flex-shrink-0 px-4 py-2 bg-blue-500 text-white rounded">Log in</x-link-button>
+            <x-link-button href="#" class="flex-shrink-0 px-4 py-2 text-white rounded">Sign up</x-link-button>
+          </x-flex-button-nav>
           @endguest
           @auth
             <div class="hidden md:block">

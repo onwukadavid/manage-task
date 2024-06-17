@@ -12,9 +12,10 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::all()->sortByDesc('updated_at');
+        $user = $request->user();
+        $tasks = Task::where('user_id',$user->id)->get();
         return view('task.index', ['tasks'=>$tasks]);
     }
 

@@ -17,6 +17,11 @@ class Task extends Model
         return $this->belongsTo('user');
     }
 
+    public function project(Project $project)
+    {
+        $project->tasks()->attach($project);
+    }
+
     public function getContentPreviewAttribute()
     {
         return Str::limit($this->content, 310);

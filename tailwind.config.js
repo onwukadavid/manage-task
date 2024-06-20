@@ -8,7 +8,9 @@ export default {
     extend: {
       colors:{
         "dave":"rgb(50,138,241)",
-        "sign-up":"#4f46e5"
+        "sign-up":"#4f46e5",
+        "primary":"",
+        "primary-font-color":""
       }
     },
   },

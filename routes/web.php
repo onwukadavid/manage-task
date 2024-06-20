@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::controller(TaskController::class)->group(function(){
-    Route::get('/', 'index')->name('home'); # change to /task
+    Route::get('/', 'index')->name('home')->middleware('auth'); # change to /task
     Route::get('/tasks/create', 'create');
     Route::post('/tasks/store', 'store');
     Route::get('/tasks/show/{task}', 'show')->name('show-task');
@@ -32,6 +33,11 @@ Route::controller(SessionController::class)->group(function(){
 Route::get('/workspace', function () {
     return view('workspace.index');
 });
-Route::get('/project', function () {
-    return view('project.index');
+Route::controller(ProjectController::class)->group(function(){
+    Route::get('/project', 'index')->name('project');
+    Route::get('/project/create', 'create')->name('create-project');
+    Route::post('/project/store', 'store')->name('store-project');
+    Route::get('/project/{project}', 'show')->name('show-project');
+    Route::get('/project/{project}/task/create', 'createTask')->name('create-project-task');
+    Route::post('/project/{project}/task/store', 'storeTask')->name('store-project-task');
 });

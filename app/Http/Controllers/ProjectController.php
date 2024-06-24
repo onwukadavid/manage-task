@@ -50,10 +50,11 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Project $project)
+    public function show(Request $request, Project $project)
     {
-        // dd($project->tasks)
-        return view('project.show', ['project'=>$project]);
+        $user = $request->user();
+        $projects = Project::where('owner_id',$user->id)->get();
+        return view('project.show', ['project'=>$project, 'projects'=>$projects]);
     }
 
     /**
@@ -77,7 +78,15 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        // dd($project);
+        // foreach($project->tasks as $task)
+        // {
+        //     $task->delete();
+        // }
+        // $project->tasks->map->delete();
+        Task::whereIn('id', $project->tasks->pluck('id'))->delete();
+        $project->delete();
+        return redirect(route('project'));
     }
     
     public function createTask(Request $request, Project $project)
@@ -86,6 +95,10 @@ class ProjectController extends Controller
         return view('project.create-task', ['project'=>$project]);
     }
 
+    /**
+     * TODO: Fix bug; when task is created for a particular project, it also adisplays on normal task page
+     * TODO: Duplicate entries should not be allowed - Not fixed
+     */
     public function storeTask(Request $request, Project $project)
     {
         $validated =$request->validate([
@@ -96,7 +109,7 @@ class ProjectController extends Controller
             'project' => 'nullable',
         ]);
         $validated['user_id'] = $project->owner->id;
-        $task = $project->tasks()->create(Arr::except($validated, 'projects'));
+        $task = Auth::user()->tasks()->create(Arr::except($validated, 'projects'));
         $task->project($project);
         return redirect(route('show-project', [$project]));
     }

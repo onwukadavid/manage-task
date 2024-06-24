@@ -15,7 +15,7 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $tasks = Task::where('user_id',$user->id)->get();
+        $tasks = Task::where('user_id',$user->id)->doesntHave('projects')->get();
         return view('task.index', ['tasks'=>$tasks]);
     }
 
@@ -39,7 +39,7 @@ class TaskController extends Controller
             'status'=>['required'],
             'priority'=>['required'],
         ]);
-        $validated['user_id'] = 1;
+        $validated['user_id'] = $request->user()->id; # change to reflect logged in user
         Task::create($validated);
         return redirect('/');
     }

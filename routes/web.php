@@ -38,6 +38,7 @@ Route::controller(ProjectController::class)->group(function(){
     Route::get('/project/create', 'create')->name('create-project');
     Route::post('/project/store', 'store')->name('store-project');
     Route::get('/project/{project}', 'show')->name('show-project');
+    Route::delete('/project/{project}', 'destroy')->name('delete-project');
     Route::get('/project/{project}/task/create', 'createTask')->name('create-project-task');
     Route::post('/project/{project}/task/store', 'storeTask')->name('store-project-task');
 });

@@ -19,7 +19,12 @@ class Task extends Model
 
     public function project(Project $project)
     {
-        $project->tasks()->attach($project);
+        $project->tasks()->attach($this);
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
     }
 
     public function getContentPreviewAttribute()

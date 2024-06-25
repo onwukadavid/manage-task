@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\userProfile;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,10 @@ class UserProfileController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $userProfile = userProfile::where('user_id', $request->user()->id);
+        return view('profile', ['profile'=>$userProfile]);
     }
 
     /**
@@ -52,7 +54,17 @@ class UserProfileController extends Controller
      */
     public function update(Request $request, userProfile $userProfile)
     {
-        //
+        $validated = $request->validate([
+            'first_name'=>[],
+            'last_name'=>[],
+            'date_of_birth'=>[],
+            'mobile_number'=>[],
+            'profile_image'=>[],
+        ]);
+        $userProfile = userProfile::find('user_id', $request->user()->id);
+        $userProfile->update($validated);
+        
+        return session()->flash('message','profile updated!');
     }
 
     /**

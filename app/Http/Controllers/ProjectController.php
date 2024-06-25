@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
+
+/**
+ * TODO: ADD Gate or policy check to all methods 
+ */
 class ProjectController extends Controller
 {
     /**
@@ -15,6 +21,10 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
+        if(Gate::denies('is-subscribed')){
+            return view('pricing');
+        }
+
         $user = $request->user();
         $projects = Project::where('owner_id',$user->id)->get();
         return view('project.index', ['projects'=>$projects]);
@@ -113,4 +123,13 @@ class ProjectController extends Controller
         $task->project($project);
         return redirect(route('show-project', [$project]));
     }
+
+    // public function pay(Request $request)
+    // {
+    //     $user = User::find($request->user()->id);
+    //     $user->is_subscribed = True;
+    //     $user->save();
+    //     // dd($user->is_subscribed);
+    //     return redirect('/');
+    // }
 }

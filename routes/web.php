@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::controller(TaskController::class)->group(function(){
-    Route::get('/', 'index')->name('home')->middleware('auth'); # change to /task
+Route::controller(TaskController::class)->middleware('auth')->group(function(){
+    Route::get('/', 'index')->name('home'); # change to /task
     Route::get('/tasks/create', 'create');
     Route::post('/tasks/store', 'store');
     Route::get('/tasks/show/{task}', 'show')->name('show-task');
@@ -33,7 +34,9 @@ Route::controller(SessionController::class)->group(function(){
 Route::get('/workspace', function () {
     return view('workspace.index');
 });
-Route::controller(ProjectController::class)->group(function(){
+
+Route::controller(ProjectController::class)->middleware('auth')->group(function(){
+    // Route::patch('/makepayment', 'pay')->name('pay');
     Route::get('/project', 'index')->name('project');
     Route::get('/project/create', 'create')->name('create-project');
     Route::post('/project/store', 'store')->name('store-project');

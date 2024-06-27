@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\userProfile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\File;
 
 class UserProfileController extends Controller
 {
@@ -13,8 +15,8 @@ class UserProfileController extends Controller
      */
     public function index(Request $request)
     {
-        $userProfile = userProfile::where('user_id', $request->user()->id);
-        return view('profile', ['profile'=>$userProfile]);
+        $userProfile = userProfile::where('user_id', $request->user()->id)->first();
+        return view('profile', ['userprofile'=>$userProfile]);
     }
 
     /**
@@ -38,7 +40,10 @@ class UserProfileController extends Controller
      */
     public function show(userProfile $userProfile)
     {
-        //
+        $userProfile = userProfile::where('user_id', Auth::user()->id)->first();
+        $data = ['userprofile'=>$userProfile];
+        return view('profile', $data);
+
     }
 
     /**
@@ -55,16 +60,27 @@ class UserProfileController extends Controller
     public function update(Request $request, userProfile $userProfile)
     {
         $validated = $request->validate([
-            'first_name'=>[],
-            'last_name'=>[],
+            'first_name'=>['required','min:2', 'max:255'],
+            'last_name'=>['required','min:2', 'max:255'],
             'date_of_birth'=>[],
-            'mobile_number'=>[],
-            'profile_image'=>[],
+            'mobile_number'=>['required','min:11', 'max:11'],
+            'profile_image'=>['image', 'mimes:png,jpg', 'max:2048'],
         ]);
-        $userProfile = userProfile::find('user_id', $request->user()->id);
-        $userProfile->update($validated);
+
+        $userProfile = userProfile::where('user_id', $request->user()->id)->first();
+        if($request->hasFile('profile_image')){
+            $profileImagePath = $request->file('profile_image');
+            $profileImageName = time().$profileImagePath->getClientOriginalName();
+            $store = $profileImagePath->storeAs('profiles', $profileImageName);
+
+            $profileImage = substr($store, 8);
+        }
         
-        return session()->flash('message','profile updated!');
+        $userProfile->date_of_birth = $request->date_of_birth ?? $userProfile->date_of_birth;
+        $userProfile->profile_image = $profileImage ?? $userProfile->profile_image;
+        $userProfile->update($validated);
+
+        return back()->with('message','profile updated!');
     }
 
     /**

@@ -45,3 +45,11 @@ Route::controller(ProjectController::class)->middleware('auth')->group(function(
     Route::get('/project/{project}/task/create', 'createTask')->name('create-project-task');
     Route::post('/project/{project}/task/store', 'storeTask')->name('store-project-task');
 });
+
+Route::controller(UserProfileController::class)->middleware('auth')->group(function(){
+    Route::get('/profile', 'index')->name('profile');
+    Route::get('/profile/create', 'create')->name('create-profile');
+    Route::post('/profile/store', 'store')->name('store-profile');
+    Route::get('/profile/{userprofile}', 'show')->name('show-profile');
+    Route::patch('/profile/{userprofile}', 'update')->name('update-profile');
+});

@@ -4,7 +4,8 @@
       <x-slot:title>
           Task
       </x-slot>
-      <x-link-button href="/tasks/create" class="dark:bg-gray-800">Create task</x-link-button>
+      {{-- <x-link-button href="/tasks/create" class="dark:bg-gray-800">Create task</x-link-button> --}}
+      <x-button id="openModalButton" class="dark:bg-gray-800 dark:border-gray-600">Add Task</x-button>
   </x-page-header>
   </x-slot>
 
@@ -55,4 +56,22 @@
       </div>
     @endforeach
   </x-card.card-layout>
+
+  <x-modal>
+    <form id="modalForm" action="/tasks/store" method="POST">
+      @csrf
+      <h2 class="text-2xl mb-1">New Task</h2>
+      <div class="border-b border-gray-900/10 mb-1"></div>
+
+      <div>
+        <x-create-task-form />
+      
+        <div class="mt-6 flex items-center justify-end gap-x-6">
+          <button type="button" id="closeModalButton" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
+          <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+        </div>
+      </div>
+    </form>
+  </x-modal>
+
 </x-index-layout>

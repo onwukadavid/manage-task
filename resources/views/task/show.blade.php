@@ -6,7 +6,7 @@
             </x-slot>
             <div>
                 <x-link-button class="dark:bg-gray-800 dark:border-gray-600" href="/task/{{ $task->id }}/edit">Edit task</x-link-button>
-                <x-button form="delete-form">Delete task</x-button>
+                <x-button class="dark:bg-red-600 dark:border-red-600" form="delete-form">Delete task</x-button>
             </div>
         </x-page-header>
     </x-slot>

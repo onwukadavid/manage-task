@@ -6,10 +6,12 @@
             </x-slot:title>
 
             <x-flex-button-nav>
-                <x-button form="delete-form">Delete project</x-button>
-                <x-link-button href="{{ route('create-project-task', [$project->id]) }}" class="dark:bg-gray-800">
+                <x-button class="dark:bg-red-600 dark:border-red-600" form="delete-form">Delete project</x-button>
+                {{-- <x-link-button href="{{ route('create-project-task', [$project->id]) }}" class="dark:bg-gray-800">
                     New Task
-                </x-link-button>
+                </x-link-button> --}}
+                <x-button id="openModalButton" class="dark:bg-gray-800 dark:border-gray-600">Add Task</x-button>
+
                 <button id="toggleSidebar" class="text-gray-500 p-2 focus:outline-none">
                   <svg id="toggleIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -89,6 +91,23 @@
           @endforeach
         </ul>
       </x-sidebar>
+
+      <x-modal>
+        <form id="modalForm" action="{{ route('store-project-task', [$project->id]) }}" method="POST">
+          @csrf
+          <h2 class="text-2xl mb-1">New Task</h2>
+          <div class="border-b border-gray-900/10 mb-1"></div>
+    
+          <div>
+            <x-create-task-form />
+          
+            <div class="mt-6 flex items-center justify-end gap-x-6">
+              <button type="button" id="closeModalButton" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
+              <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+            </div>
+          </div>
+        </form>
+      </x-modal>
 
       <form method="POST" action="/project/{{ $project->id }}" class="hidden" id="delete-form">
         @csrf

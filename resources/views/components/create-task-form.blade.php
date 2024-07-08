@@ -1,5 +1,5 @@
 <div>
-    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+    <div class="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-6">
 
      <div class="sm:col-span-2 sm:col-start-1">
          <x-form.label for="title">Title</x-form.label>

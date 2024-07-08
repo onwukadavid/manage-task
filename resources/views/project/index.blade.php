@@ -13,6 +13,12 @@
     </x-page-header>
   </x-slot>
 
+  @session('message')
+    <x-notification>
+      {{ $value }}
+    </x-notification>
+  @endsession
+
   <x-card.card-layout>
     @foreach($projects as $project)
       <div class="h-80 bg-white rounded-lg shadow-md p-4 transform transition-transform duration-300 hover:scale-105 flex flex-col justify-between">

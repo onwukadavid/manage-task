@@ -54,7 +54,7 @@ class ProjectController extends Controller
         $project = Project::create($validated);
 
         # return to the particular project view
-        return redirect(route('show-project', [$project->id]));
+        return redirect(route('show-project', [$project->id]))->with('message', 'Project created successfully');
     }
 
     /**
@@ -96,7 +96,7 @@ class ProjectController extends Controller
         // $project->tasks->map->delete();
         Task::whereIn('id', $project->tasks->pluck('id'))->delete();
         $project->delete();
-        return redirect(route('project'));
+        return redirect(route('project'))->with('message', 'Project deleted successfully');
     }
     
     public function createTask(Request $request, Project $project)

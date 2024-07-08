@@ -41,7 +41,7 @@ class TaskController extends Controller
         ]);
         $validated['user_id'] = $request->user()->id; # change to reflect logged in user
         Task::create($validated);
-        return redirect('/');
+        return redirect('/')->with('message', 'Task created successfully');
     }
 
     /**
@@ -95,6 +95,6 @@ class TaskController extends Controller
     {
         $task = Task::where('id', $task->id)->first();
         $task->delete();
-        return redirect('/');
+        return redirect('/')->with('message', 'Task deleted successfully');
     }
 }

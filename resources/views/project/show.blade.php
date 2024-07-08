@@ -21,6 +21,12 @@
         </x-page-header>
     </x-slot:header>
 
+    @session('message')
+      <x-notification>
+        {{ $value }}
+      </x-notification>
+    @endsession
+
     <x-card.card-layout>
         @foreach($project->tasks as $task)
             @php

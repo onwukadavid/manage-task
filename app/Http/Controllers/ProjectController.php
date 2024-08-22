@@ -72,7 +72,13 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        // get the project
+
+        // return the page with the edit form passed to it
+        $data = ['project'=>$project];
+
+        # pass it to the view
+        return view('project.edit', data:$data);
     }
 
     /**
@@ -121,7 +127,7 @@ class ProjectController extends Controller
         $validated['user_id'] = $project->owner->id;
         $task = Auth::user()->tasks()->create(Arr::except($validated, 'projects'));
         $task->project($project);
-        return redirect(route('show-project', [$project]));
+        return redirect(route('show-project', [$project]))->with('message', 'Task created successfully');
     }
 
     // public function pay(Request $request)
@@ -132,4 +138,13 @@ class ProjectController extends Controller
     //     // dd($user->is_subscribed);
     //     return redirect('/');
     // }
+
+    public function searchUser(Request $request)
+    {
+        $query = $request->get('query');
+    
+        $users = User::where('email', 'LIKE', "%{$query}%")->get();
+    
+        return response()->json($users);
+    }
 }

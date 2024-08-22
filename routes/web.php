@@ -39,11 +39,13 @@ Route::controller(ProjectController::class)->middleware('auth')->group(function(
     // Route::patch('/makepayment', 'pay')->name('pay');
     Route::get('/project', 'index')->name('project');
     Route::get('/project/create', 'create')->name('create-project');
+    Route::get('/project/{project}/edit', 'edit')->name('edit-project');
     Route::post('/project/store', 'store')->name('store-project');
     Route::get('/project/{project}', 'show')->name('show-project');
     Route::delete('/project/{project}', 'destroy')->name('delete-project');
     Route::get('/project/{project}/task/create', 'createTask')->name('create-project-task');
     Route::post('/project/{project}/task/store', 'storeTask')->name('store-project-task');
+    Route::get('/search-user', 'searchUser')->name('search-user');
 });
 
 Route::controller(UserProfileController::class)->middleware('auth')->group(function(){

@@ -94,7 +94,14 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $task = Task::where('id', $task->id)->first();
+        $taskProject = $task->projects;
+
         $task->delete();
+
+        if($taskProject->isNotEmpty()){
+            return redirect(route('show-project', [$taskProject[0]->id])); # switch to name
+        }
+
         return redirect('/')->with('message', 'Task deleted successfully');
     }
 }

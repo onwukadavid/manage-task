@@ -2,7 +2,7 @@
   <x-slot:header>
     <x-page-header>
       <x-slot:title>
-          Task
+          Tasks
       </x-slot>
       {{-- <x-link-button href="/tasks/create" class="dark:bg-gray-800">Create task</x-link-button> --}}
       <x-button id="openModalButton" class="dark:bg-gray-800 dark:border-gray-600">Add Task</x-button>

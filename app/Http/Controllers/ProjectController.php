@@ -7,12 +7,14 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 
 /**
  * TODO: ADD Gate or policy check to all methods 
+ * TODO: Fix migration always returning duplicate error when run once
  */
 class ProjectController extends Controller
 {
@@ -50,11 +52,12 @@ class ProjectController extends Controller
             'description'=>['required', 'min:10'],
         ]);
         $validated['owner_id'] = $request->user()->id;
+        $validated['slug'] = Str::slug($validated['title']);
         # create Project object
         $project = Project::create($validated);
 
         # return to the particular project view
-        return redirect(route('show-project', [$project->id]))->with('message', 'Project created successfully');
+        return redirect(route('show-project', [$project->slug]))->with('message', 'Project created successfully');
     }
 
     /**
@@ -125,7 +128,8 @@ class ProjectController extends Controller
             'project' => 'nullable',
         ]);
         $validated['user_id'] = $project->owner->id;
-        $task = Auth::user()->tasks()->create(Arr::except($validated, 'projects'));
+        $validated['slug'] = Str::slug($validated['title']);
+        $task = $request->user()->tasks()->create(Arr::except($validated, 'projects'));
         $task->project($project);
         return redirect(route('show-project', [$project]))->with('message', 'Task created successfully');
     }

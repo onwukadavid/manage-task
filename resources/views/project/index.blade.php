@@ -24,8 +24,16 @@
       <div class="h-80 bg-white rounded-lg shadow-md p-4 transform transition-transform duration-300 hover:scale-105 flex flex-col justify-between">
         <div>
             <div class="flex justify-between items-center mb-2">
-                <h2 class="text-lg font-bold"><a href={{ route('show-project', [$project->id]) }}>{{ $project->title }}</a></h2>
-                <a href={{ route('edit-project', [$project->id]) }}>
+                <h2 class="text-lg font-bold"><a href={{ route('show-project', [$project->slug]) }}>{{ $project->title }}</a>
+                  <small class="text-gray-500 font-medium">
+                    @if(Auth::user()->id === $project->owner_id)
+                      (owner)
+                    @else
+                      (contributor)
+                    @endif
+                  </small>
+                </h2>
+                <a href={{ route('edit-project', [$project->slug]) }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pencil">
                     <path d="M12 21h9"></path>
                     <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>

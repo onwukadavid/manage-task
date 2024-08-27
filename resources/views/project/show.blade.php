@@ -7,7 +7,7 @@
 
             <x-flex-button-nav>
                 <x-button class="dark:bg-red-600 dark:border-red-600" form="delete-form">Delete project</x-button>
-                {{-- <x-link-button href="{{ route('create-project-task', [$project->id]) }}" class="dark:bg-gray-800">
+                {{-- <x-link-button href="{{ route('create-project-task', [$project->slug]) }}" class="dark:bg-gray-800">
                     New Task
                 </x-link-button> --}}
                 <x-button id="openModalButton" class="dark:bg-gray-800 dark:border-gray-600">Add Task</x-button>
@@ -53,13 +53,13 @@
             <div class="h-80 bg-white rounded-lg shadow-md p-4 transform transition-transform duration-300 hover:scale-105 flex flex-col justify-between">
             <div>
                 <div class="flex justify-between items-center mb-2">
-                    <h2 class="text-lg font-bold"><a href="/tasks/show/{{ $task->id }}">{{ $task->title }}</a></h2>
+                    <h2 class="text-lg font-bold"><a href="/tasks/show/{{ $task->slug }}">{{ $task->title }}</a></h2>
                     <div class="flex space-x-2">
                         <x-status class={{$statusClass}}>{{ $task->status }}</x-status>
                         <x-status class={{$priorityClass}}>{{ $task->priority }}</x-status>
                     </div>
                 </div>
-                <p class="text-sm text-gray-600 mb-4">{{ $task->content_preview }}<a href="/tasks/show/{{ $task->id }}" class="text-blue-500">See more</a></p>
+                <p class="text-sm text-gray-600 mb-4">{{ $task->content_preview }}<a href="/tasks/show/{{ $task->slug }}" class="text-blue-500">See more</a></p>
             </div>
             <div class="flex justify-between items-end">
                 <span class="text-xs text-gray-500">Last update: {{ $task->updated_at }}</span>
@@ -79,16 +79,16 @@
           @foreach($projects as $project)
             <li class="mb-2">
                 <div class="flex item-center">
-                    <a href={{ route('show-project', [$project->id]) }} class="flex-grow">
+                    <a href={{ route('show-project', [$project->slug]) }} class="flex-grow">
                         {{ $project->title }}
                     </a>
-                    <button class="text-gray-500 focus:outline-none" onclick="toggleTasks('{{$project->id}}')">
+                    <button class="text-gray-500 focus:outline-none" onclick="toggleTasks('{{$project->slug}}')">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 15.6L5.2 8.8L6.8 7.2L12 12.4L17.2 7.2L18.8 8.8L12 15.6Z" fill="black"/>
                         </svg>
                     </button>
                 </div>
-                <ul id="{{$project->id}}" class="ml-4 hidden">
+                <ul id="{{$project->slug}}" class="ml-4 hidden">
                   @foreach($project->tasks as $task)
                     <li class="mt-2">{{ $task->title }}</li>
                   @endforeach
@@ -99,7 +99,7 @@
       </x-sidebar>
 
       <x-modal>
-        <form id="modalForm" action="{{ route('store-project-task', [$project->id]) }}" method="POST">
+        <form id="modalForm" action="{{ route('store-project-task', [$project->slug]) }}" method="POST">
           @csrf
           <h2 class="text-2xl mb-1">New Task</h2>
           <div class="border-b border-gray-900/10 mb-1"></div>
@@ -115,7 +115,7 @@
         </form>
       </x-modal>
 
-      <form method="POST" action="/project/{{ $project->id }}" class="hidden" id="delete-form">
+      <form method="POST" action="/project/{{ $project->slug }}" class="hidden" id="delete-form">
         @csrf
         @method('DELETE')
     </form>

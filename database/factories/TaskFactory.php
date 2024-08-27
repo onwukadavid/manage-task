@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use Stringable;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,6 +22,7 @@ class TaskFactory extends Factory
         return [
             'title'=>fake()->text(5),
             'content'=>fake()->text(400),
+            'slug' => fn(array $attributes) => Str::slug($attributes['title']),
             'user_id'=>2,
         ];
     }

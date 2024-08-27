@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 use function Termwind\render;
 
+
+/**
+ * TODO: ADD Gate or policy check to all methods 
+ * TODO: Fix migration always returning duplicate error when run once
+ */
 class TaskController extends Controller
 {
     /**
@@ -40,6 +45,7 @@ class TaskController extends Controller
             'priority'=>['required'],
         ]);
         $validated['user_id'] = $request->user()->id; # change to reflect logged in user
+        $validated['slug'] = Str::slug($validated['title']);
         Task::create($validated);
         return redirect('/')->with('message', 'Task created successfully');
     }
@@ -50,7 +56,7 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         # get task
-        $taskObj = Task::where('id',$task->id)->first();
+        $taskObj = Task::where('slug',$task->slug)->first();
         $data = ['task'=>$taskObj];
 
         # diaplay task
@@ -64,7 +70,7 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         # get the task object
-        $taskObj = Task::where('id',$task->id)->first();
+        $taskObj = Task::where('slug',$task->slug)->first();
         $data = ['task'=>$taskObj];
 
         # pass it to the view
@@ -76,7 +82,7 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        $task = Task::where('id', $task->id)->first();
+        $task = Task::where('slug', $task->slug)->first();
         $validated =$request->validate([
             'title'=>['required', 'min:3', 'max:255'],
             'content'=>['required', 'min:10'],
@@ -93,7 +99,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        $task = Task::where('id', $task->id)->first();
+        $task = Task::where('slug', $task->slug)->first();
         $taskProject = $task->projects;
 
         $task->delete();

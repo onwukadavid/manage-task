@@ -36,4 +36,9 @@ class Project extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function collaborator(User $user)
+    {
+        $this->collaborators()->attach($user);
+    }
 }

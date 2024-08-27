@@ -9,7 +9,7 @@
     </x-slot>
 
     {{-- SWITH TO MODAL FROM THE INDEX PAGE --}}
-    <form action="/project/{{$project->slug}}" method="POST">
+    <form action={{ route('update-project', [$project->slug]) }} method="POST">
         @csrf
         @method('PATCH')
         <div>
@@ -23,9 +23,9 @@
                  </div>
              
                  <div class="col-span-full">
-                  <x-form.label for="content">content</x-form.label>
-                  <x-form.textarea-layout id="content" name="content" rows="3" >{{ $project->description }}</x-form.textarea-layout>
-                  <x-form.error name="content" />
+                  <x-form.label for="description">Description</x-form.label>
+                  <x-form.textarea-layout id="description" name="description" rows="3" >{{ $project->description }}</x-form.textarea-layout>
+                  <x-form.error name="description" />
                  </div>
 
                  <div class="col-span-2">
@@ -35,6 +35,11 @@
                   <x-form.error name="search" />
 
                   {{-- List all collaborators --}}
+                  @foreach($project->collaborators as $collaborator)
+                  <ul>
+                    {{ $collaborator->email }}({{$collaborator->username}}) 
+                  </ul>
+                  @endforeach
                  </div>
                 </div>
             </div>

@@ -41,7 +41,8 @@ Route::controller(ProjectController::class)->middleware('auth')->group(function(
     Route::get('/project/create', 'create')->name('create-project');
     Route::get('/project/{project}/edit', 'edit')->name('edit-project');
     Route::post('/project/store', 'store')->name('store-project');
-    Route::get('/project/{project}', 'show')->name('show-project');
+    Route::get('/project/show/{project}', 'show')->name('show-project');
+    Route::patch('/project/{project}', 'update')->name('update-project');
     Route::delete('/project/{project}', 'destroy')->name('delete-project');
     Route::get('/project/{project}/task/create', 'createTask')->name('create-project-task');
     Route::post('/project/{project}/task/store', 'storeTask')->name('store-project-task');

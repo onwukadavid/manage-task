@@ -89,7 +89,20 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $validated = $request->validate([
+            'title'=>['required', 'min:3', 'max:255'],
+            'description'=>['required', 'min:10'],
+            'search' => 'nullable'
+        ]);
+        
+        $collaborator = $validated['search'];
+        if($collaborator){
+            $user = User::where('email', $validated['search'])->first();
+            $project->collaborator($user);
+        }
+
+        $project->update(Arr::except($validated, 'search'));
+        return redirect(route('show-project', [$project->slug]));
     }
 
     /**

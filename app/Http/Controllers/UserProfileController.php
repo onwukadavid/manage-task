@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\File;
 
+
+/**
+ * TODO: Create a User profile automatically when a user is cerated
+ */
 class UserProfileController extends Controller
 {
     /**
@@ -59,6 +63,9 @@ class UserProfileController extends Controller
      */
     public function update(Request $request, userProfile $userProfile)
     {
+        /**
+         * TODO: Update username and email
+         */
         $validated = $request->validate([
             'first_name'=>['required','min:2', 'max:255'],
             'last_name'=>['required','min:2', 'max:255'],
@@ -71,13 +78,13 @@ class UserProfileController extends Controller
         if($request->hasFile('profile_image')){
             $profileImagePath = $request->file('profile_image');
             $profileImageName = time().$profileImagePath->getClientOriginalName();
-            $store = $profileImagePath->storeAs('profiles', $profileImageName);
-
-            $profileImage = substr($store, 8);
+            $store = $profileImagePath->storeAs('public/profiles', $profileImageName);
+            
+            $profileImage = substr($store, 7);
         }
         
-        $userProfile->date_of_birth = $request->date_of_birth ?? $userProfile->date_of_birth;
-        $userProfile->profile_image = $profileImage ?? $userProfile->profile_image;
+        $validated['date_of_birth'] = $request->date_of_birth ?? $userProfile->date_of_birth; #TODO: Wok on the display
+        $validated['profile_image'] = $profileImage ?? $userProfile->profile_image;
         $userProfile->update($validated);
 
         return back()->with('message','profile updated!');

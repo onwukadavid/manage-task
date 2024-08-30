@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->unique();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->dateTime('date_of_birth')->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->string('mobile_number')->nullable();
             $table->string('profile_image')->nullable();
             $table->timestamps();

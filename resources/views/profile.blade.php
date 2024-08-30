@@ -16,11 +16,23 @@
                 <div class="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
 
                     @session('message')
-                        <div class="sm:col-span-2 sm:col-start-2 bg-green-500 text-white text-lg">
-                            {{session('message')}}
-                        </div>
+                        <x-notification>
+                            {{ session('message') }}
+                        </x-notification>
                     @endsession
             
+                    <div class="sm:col-span-2 sm:col-start-1">
+                        <x-form.label for="username">Username</x-form.label>
+                        <x-form.input type="text" class="w-full bg-gray-100" name="username" id="username" autocomplete="address-level2" value="{{ $userprofile->user->username ?? old('username')}}" disabled/>
+                        <x-form.error name="username" />
+                    </div>
+
+                    <div class="sm:col-span-2 sm:col-start-1">
+                        <x-form.label for="email">Email</x-form.label>
+                        <x-form.input type="email" class="w-full bg-gray-100" name="email" id="email" autocomplete="address-level2" value="{{ $userprofile->user->email ?? old('email')}}" disabled/>
+                        <x-form.error name="email" />
+                    </div>
+
                     <div class="sm:col-span-2 sm:col-start-1">
                         <x-form.label for="first_name">First name</x-form.label>
                         <x-form.input type="text" class="w-full" name="first_name" id="first_name" autocomplete="address-level2" value="{{ $userprofile->first_name ?? old('first_name')}}" />
@@ -45,22 +57,12 @@
                         <x-form.error name="date_of_birth" />
                     </div>
 
-                    @if($userprofile->date_of_birth)
-                        <div>
-                            {{$userprofile->date_of_birth}}
-                        </div>
-                    @endif
-
                     <div class="sm:col-span-2 sm:col-start-1">
                         <x-form.label for="profile_image">Profile image</x-form.label>
                         <x-form.input type="file" name="profile_image" id="profile_image" autocomplete="address-level2" value="{{ $userprofile->profile_image ?? old('profile_image') }}" />
                         <x-form.error name="profile_image" />
 
-                        @if($userprofile->profile_image)
-                            <div>
-                                <img class=" mt-2 h-10 w-10 rounded-full" src={{ asset('storage/'.$userprofile->profile_image) }} alt="">
-                            </div>
-                        @endif
+                        <x-profile.profile-image profile_image="{{ $userprofile->profile_image }}"/>
                     </div>
                 </div>
             </div>

@@ -4,7 +4,6 @@
             <x-slot:title>
                 Edit project
             </x-slot>
-            <x-link-button href="/projects/create" class="dark:bg-gray-800">Create Project</x-link-button>
         </x-page-header>
     </x-slot>
 
@@ -36,8 +35,13 @@
 
                   {{-- List all collaborators --}}
                   @foreach($project->collaborators as $collaborator)
-                  <ul>
-                    {{ $collaborator->email }}({{$collaborator->username}}) 
+                  <ul class="mt-2">
+                    <div class="flex items-center space-x-2">
+                        <x-profile.profile-image profile_image="{{ $collaborator->userprofile->profile_image }}"/>
+                        <span>
+                            {{ $collaborator->email }}({{$collaborator->username}}) 
+                        </span>
+                    </div>
                   </ul>
                   @endforeach
                  </div>

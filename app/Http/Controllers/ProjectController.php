@@ -23,13 +23,18 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
+        /**
+         * TODO: Optimize the query
+         */
         if(Gate::denies('is-subscribed')){
             return view('pricing');
         }
 
         $user = $request->user();
         $projects = Project::where('owner_id',$user->id)->get();
-        return view('project.index', ['projects'=>$projects]);
+        $sharedProjects = $request->user()->sharedProjects;
+        $allProjects = $projects->concat($sharedProjects);
+        return view('project.index', ['projects'=>$allProjects]);
     }
 
     /**
